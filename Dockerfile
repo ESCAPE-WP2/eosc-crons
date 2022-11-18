@@ -29,7 +29,7 @@ RUN pip install --upgrade pip
 
 RUN echo $(pwd)
 
-RUN pip install -r db_ops/requirements.txt
+RUN pip install -r /scripts/eosc-crons/db_ops/requirements.txt
 # RUN pip install -r /scripts/fts-analysis-datalake/requirements.txt
 # RUN pip install -r /scripts/rucio-stats-dids/requirements.txt
 # RUN pip install -r /scripts/rucio-stats-replicas/requirements.txt
