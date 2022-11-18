@@ -14,8 +14,8 @@ rm -rf /var/cache/yum
 RUN yum -y install git htop
 
 # create workdir
-# RUN mkdir /scripts
-# WORKDIR /scripts
+RUN mkdir /scripts
+WORKDIR /scripts
 
 
 # # clone repos
