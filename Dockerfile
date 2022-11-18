@@ -14,8 +14,9 @@ rm -rf /var/cache/yum
 RUN yum -y install git htop
 
 # create workdir
-RUN mkdir /scripts
-WORKDIR /scripts
+# RUN mkdir /scripts
+# WORKDIR /scripts
+
 
 # # clone repos
 RUN git clone https://github.com/ESCAPE-WP2/eosc-crons.git
@@ -25,7 +26,10 @@ RUN git clone https://github.com/ESCAPE-WP2/eosc-crons.git
 
 # install python requirments
 RUN pip install --upgrade pip
-RUN pip install -r /db-ops/requirements.txt
+
+RUN echo $(pwd)
+
+RUN pip install -r db_ops/requirements.txt
 # RUN pip install -r /scripts/fts-analysis-datalake/requirements.txt
 # RUN pip install -r /scripts/rucio-stats-dids/requirements.txt
 # RUN pip install -r /scripts/rucio-stats-replicas/requirements.txt
