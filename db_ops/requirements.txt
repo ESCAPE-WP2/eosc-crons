@@ -1,3 +1,2 @@
-rucio==1.29.0
 cx_Oracle
 requests
