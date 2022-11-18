@@ -18,7 +18,7 @@ RUN mkdir /scripts
 WORKDIR /scripts
 
 # # clone repos
-# RUN git clone https://github.com/ESCAPE-WP2/Utilities-and-Operations-Scripts.git
+RUN git clone https://github.com/ESCAPE-WP2/eosc-crons.git
 # # RUN git clone https://github.com/ESCAPE-WP2/fts-analysis-datalake.git
 # RUN git clone https://github.com/ESCAPE-WP2/rucio-stats-dids.git
 # RUN git clone https://github.com/ESCAPE-WP2/rucio-stats-replicas.git
