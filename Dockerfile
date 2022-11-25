@@ -36,8 +36,11 @@ RUN pip install -r /scripts/eosc-crons/db_ops/requirements.txt
 RUN pip install rucio-clients==$RUCIO_VERSION
 RUN pip install rucio==$RUCIO_VERSION
 
-# COPY ./scripts/* /scripts/
+COPY ./* /scripts/
 COPY ./rucio.cfg.escape.j2 /rucio.cfg.escape.j2
+
+# ESCAPE Rucio setup
+ADD --chown=user:user /rucio.cfg.escape.j2 /rucio.cfg.j2
 
 USER root
 # EGI trust anchors
@@ -57,5 +60,7 @@ RUN mkdir -p /etc/grid-security/vomsdir/escape \
 # Install latest kubectl
 RUN curl -o /usr/bin/kubectl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN chmod +x /usr/bin/kubectl
+
+USER user
 
 ENTRYPOINT ["/bin/bash"]
