@@ -13,10 +13,7 @@ rm -rf /var/cache/yum
 # install useful tools
 RUN yum -y install git htop
 
-# create workdir
-RUN mkdir /scripts
-WORKDIR /scripts
-
+WORKDIR /home/user/
 
 # # clone repos
 RUN git clone https://github.com/ESCAPE-WP2/eosc-crons.git
@@ -29,15 +26,18 @@ RUN pip install --upgrade pip
 
 RUN echo $(pwd)
 
-RUN pip install -r /scripts/eosc-crons/db_ops/requirements.txt
+RUN pip install -r /home/user/eosc-crons/db_ops/requirements.txt
+RUN pip install -r /home/user/eosc-crons/cric-info-tools/reqs.txt
+
 # RUN pip install -r /scripts/fts-analysis-datalake/requirements.txt
 # RUN pip install -r /scripts/rucio-stats-dids/requirements.txt
 # RUN pip install -r /scripts/rucio-stats-replicas/requirements.txt
+
 RUN pip install rucio-clients==$RUCIO_VERSION
 RUN pip install rucio==$RUCIO_VERSION
 
-COPY ./* /scripts/
-COPY ./rucio.cfg.escape.j2 /rucio.cfg.escape.j2
+# COPY ./* /scripts/
+# COPY ./rucio.cfg.escape.j2 /rucio.cfg.escape.j2
 
 # ESCAPE Rucio setup
 # ADD --chown=user:user /rucio.cfg.escape.j2 /rucio.cfg.j2
