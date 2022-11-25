@@ -40,7 +40,7 @@ COPY ./* /scripts/
 COPY ./rucio.cfg.escape.j2 /rucio.cfg.escape.j2
 
 # ESCAPE Rucio setup
-ADD --chown=user:user /rucio.cfg.escape.j2 /rucio.cfg.j2
+# ADD --chown=user:user /rucio.cfg.escape.j2 /rucio.cfg.j2
 
 USER root
 # EGI trust anchors
