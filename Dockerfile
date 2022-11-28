@@ -11,7 +11,7 @@ yum clean all && \
 rm -rf /var/cache/yum
 
 # install useful tools
-RUN yum -y install git htop
+RUN yum -y install git htop voms-clients-cpp
 
 WORKDIR /home/user/
 
