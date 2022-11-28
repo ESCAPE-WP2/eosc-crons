@@ -36,11 +36,8 @@ RUN pip install -r /home/user/eosc-crons/cric-info-tools/reqs.txt
 RUN pip install rucio-clients==$RUCIO_VERSION
 RUN pip install rucio==$RUCIO_VERSION
 
-# COPY ./* /scripts/
-# COPY ./rucio.cfg.escape.j2 /rucio.cfg.escape.j2
-
-# ESCAPE Rucio setup
-# ADD --chown=user:user /rucio.cfg.escape.j2 /rucio.cfg.j2
+COPY ./eosc-crons/* /eosc-crons/
+COPY ./rucio.cfg.escape.j2 /rucio.cfg.escape.j2
 
 USER root
 # EGI trust anchors
