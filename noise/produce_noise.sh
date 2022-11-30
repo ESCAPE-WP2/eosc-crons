@@ -1,12 +1,12 @@
 #!/bin/bash
 
-python3 /home/user/cric-info-tools/list_rses_from_cric.py -o /home/user/cric-info-tools/list_rses_from_cric.txt -i /home/user/cric-info-tools/disabled_rses.txt
+python3 /home/user/eosc-crons/cric-info-tools/list_rses_from_cric.py -o /home/user/eosc-crons/cric-info-tools/list_rses_from_cric.txt -i /home/user/eosc-crons/cric-info-tools/disabled_rses.txt
 
 rses=()
 while read line
 do
     rses+=($line)
-done < /home/user/cric-info-tools/list_rses_from_cric.txt
+done < /home/user/eosc-crons/cric-info-tools/list_rses_from_cric.txt
 
 len=${#rses[@]}
 
