@@ -1,0 +1,127 @@
+apiVersion: mutations.gatekeeper.sh/v1alpha1
+kind: Assign
+metadata:
+  name: mutate-eosc-crons-env-volumemounts
+  namespace: crons
+spec:
+  applyTo:
+  - groups: [""]
+    kinds: ["Pod"]
+    versions: ["v1"]
+  match:
+    scope: Namespaced
+    labelSelector:
+      role: "eosc-crons-env"
+    kinds:
+    - apiGroups: ["*"]
+      kinds: ["Pod"]
+    namespaces: ["crons"]
+  # this is the element we want to update
+  location: "spec.containers[name:*].volumeMounts"
+  parameters:
+    assign:
+      # value can be single or a composite, like the array below
+      value:
+        # - name: cache-volume
+        #   mountPath: /cache
+        - name: proxy-volume
+          mountPath: /opt/proxy
+        - name: ca-volume
+          mountPath: /etc/pki/tls/certs/cern
+---
+apiVersion: mutations.gatekeeper.sh/v1alpha1
+kind: Assign
+metadata:
+  name: mutate-eosc-crons-env-volumes
+  namespace: crons
+spec:
+  applyTo:
+  - groups: [""]
+    kinds: ["Pod"]
+    versions: ["v1"]
+  match:
+    scope: Namespaced
+    labelSelector:
+      role: "eosc-crons-env"
+    kinds:
+    - apiGroups: ["*"]
+      kinds: ["Pod"]
+    namespaces: ["crons"]
+  location: "spec.volumes"
+  parameters:
+    assign:
+      value:
+        # - name: cache-volume
+        #   emptyDir: {}
+        - name: proxy-volume
+          secret:
+            secretName: prod-rucio-x509up
+        - name: ca-volume
+          secret:
+            secretName: rucio-cfg-ca-cert
+---
+apiVersion: mutations.gatekeeper.sh/v1alpha1
+kind: Assign
+metadata:
+  name: mutate-eosc-crons-env-env
+  namespace: crons
+spec:
+  applyTo:
+  - groups: [""]
+    kinds: ["Pod"]
+    versions: ["v1"]
+  match:
+    scope: Namespaced
+    labelSelector:
+      role: "eosc-crons-env"
+    kinds:
+    - apiGroups: ["*"]
+      kinds: ["Pod"]
+    namespaces: ["crons"]
+  location: "spec.containers[name:*].env"
+  parameters:
+    assign:
+      value:
+        # - name: DB_PORT
+        #   value: "6379"
+        - name: RUCIO_CFG_DATABASE_DEFAULT
+          valueFrom:
+            secretKeyRef:
+              name: database-config
+              key: database-default
+        # - name: IAM_RUCIO_SYNC_CLIENT_SECRET
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: iam-client
+        #       key: iam-client-secret
+        - name: IAM_RUCIO_SYNC_SERVER
+          value: "https://iam-escape.cloud.cnaf.infn.it/"
+        # - name: IAM_RUCIO_SYNC_CLIENT_ID
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: iam-client
+        #       key: iam-client-id
+        - name: RUCIO_CFG_ACCOUNT
+          value: "ewp2c01"
+        - name: RUCIO_CFG_AUTH_TYPE
+          value: "userpass"
+        - name: RUCIO_CFG_CA_CERT
+          value: "/etc/pki/tls/certs/cern/CERN-bundle.pem"
+        - name: RUCIO_CFG_CLIENT_X509_PROXY
+          value: "/opt/proxy/x509up"
+        - name: RUCIO_CFG_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: escape-sso-client-account
+              key: escape-sso-client-username
+        - name: RUCIO_CFG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: escape-sso-client-account
+              key: escape-sso-client-password
+        - name: RUCIO_CFG_RUCIO_HOST
+          value: "https://escape-rucio.cern.ch"
+        - name: RUCIO_CFG_AUTH_HOST
+          value: "https://escape-rucio-auth.cern.ch"
+        - name: X509_USER_PROXY
+          value: "/opt/proxy/x509up"
