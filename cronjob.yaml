@@ -25,7 +25,7 @@ spec:
             command:
             - /bin/sh
             - -c
-            - date; echo Hello from EOSC-NOISE; echo "Generating Rucio CFG"; j2 home/user/eosc-crons/rucio.cfg.escape.j2 | sed '/^\s*$/d' > /opt/rucio/etc/rucio.cfg; FILE_SIZE=5G /bin/bash /home/user/eosc-crons/noise/rucio_produce_noise.sh
+            - date; echo $(pwd); echo Hello from EOSC-NOISE; echo "Generating Rucio CFG"; j2 /home/user/eosc-crons/rucio.cfg.escape.j2 | sed '/^\s*$/d' > /opt/rucio/etc/rucio.cfg; FILE_SIZE=5G /bin/bash /home/user/eosc-crons/noise/produce_noise.sh
             resources:
               requests:
                 memory: 1Gi
