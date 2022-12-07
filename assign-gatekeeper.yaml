@@ -25,9 +25,9 @@ spec:
         # - name: cache-volume
         #   mountPath: /cache
         - name: proxy-volume
-          mountPath: /
+          mountPath: /opt/proxy/
         - name: ca-volume
-          mountPath: /etc/pki/tls/certs/
+          mountPath: /etc/pki/tls/certs/cern/
 ---
 apiVersion: mutations.gatekeeper.sh/v1alpha1
 kind: Assign
@@ -106,9 +106,9 @@ spec:
         - name: RUCIO_CFG_AUTH_TYPE
           value: "userpass"
         - name: RUCIO_CFG_CA_CERT
-          value: "/etc/pki/tls/certs/CERN-bundle.pem"
+          value: "/etc/pki/tls/certs/cern/CERN-bundle.pem"
         - name: RUCIO_CFG_CLIENT_X509_PROXY
-          value: "/x509up"
+          value: "/opt/proxy/x509up"
         - name: RUCIO_CFG_USERNAME
           valueFrom:
             secretKeyRef:
@@ -124,4 +124,4 @@ spec:
         - name: RUCIO_CFG_AUTH_HOST
           value: "https://escape-rucio-auth.cern.ch"
         - name: X509_USER_PROXY
-          value: "/x509up"
+          value: "/opt/proxy/x509up"
