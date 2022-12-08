@@ -1,6 +1,117 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
+  name: eosc-noise-10mb
+  namespace: crons
+spec:
+  schedule: "*/15 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      labels:
+        role: eosc-crons-env
+    spec:
+      template:
+        metadata:
+          labels:
+            role: eosc-crons-env
+        spec:
+          containers:
+          - name: eosc-noise-10mb
+            image: projectescape/eosc-crons:stable
+            tty: true
+            imagePullPolicy: Always
+            command:
+            - /bin/sh
+            - -c 
+            - date; echo $(pwd); echo Hello from EOSC-NOISE; echo "Generating Rucio CFG"; j2 /home/user/eosc-crons/rucio.cfg.escape.j2 | sed '/^\s*$/d' > /opt/rucio/etc/rucio.cfg; FILE_SIZE=10M /bin/bash /home/user/eosc-crons/noise/produce_noise.sh
+            resources:
+              requests:
+                memory: 1Gi
+                ephemeral-storage: 20Mi
+              limits:
+                memory: 2Gi
+                ephemeral-storage: 20Mi
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: eosc-noise-100mb
+  namespace: crons
+spec:
+  schedule: "*/35 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      labels:
+        role: eosc-crons-env
+    spec:
+      template:
+        metadata:
+          labels:
+            role: eosc-crons-env
+        spec:
+          containers:
+          - name: eosc-noise-100mb
+            image: projectescape/eosc-crons:stable
+            tty: true
+            imagePullPolicy: Always
+            command:
+            - /bin/sh
+            - -c
+            - date; echo $(pwd); echo Hello from EOSC-NOISE; echo "Generating Rucio CFG"; j2 /home/user/eosc-crons/rucio.cfg.escape.j2 | sed '/^\s*$/d' > /opt/rucio/etc/rucio.cfg; FILE_SIZE=100M /bin/bash /home/user/eosc-crons/noise/produce_noise.sh
+            resources:
+              requests:
+                memory: 1Gi
+                ephemeral-storage: 200Mi
+              limits:
+                memory: 2Gi
+                ephemeral-storage: 200Mi
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: eosc-noise-1gb
+  namespace: crons
+spec:
+  schedule: "0 */2 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      labels:
+        role: eosc-crons-env
+    spec:
+      template:
+        metadata:
+          labels:
+            role: eosc-crons-env
+        spec:
+          containers:
+          - name: eosc-noise-1gb
+            image: projectescape/eosc-crons:stable
+            tty: true
+            imagePullPolicy: Always
+            command:
+            - /bin/sh
+            - -c
+            - date; echo $(pwd); echo Hello from EOSC-NOISE; echo "Generating Rucio CFG"; j2 /home/user/eosc-crons/rucio.cfg.escape.j2 | sed '/^\s*$/d' > /opt/rucio/etc/rucio.cfg; FILE_SIZE=1G /bin/bash /home/user/eosc-crons/noise/produce_noise.sh
+            resources:
+              requests:
+                memory: 1Gi
+                ephemeral-storage: 2Gi
+              limits:
+                memory: 2Gi
+                ephemeral-storage: 2Gi
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
   name: eosc-noise-5gb
   namespace: crons
 spec:
